@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SmartLoan form </title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      color: #003366;
+    }
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #003366;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00509e;
+    }
+  </style>
+</head>
+<body>
+ <h2>Loan Application</h2>
+<form action="/submit" method="POST">
+  <label>Full Name:</label><input type="text" name="name" required><br>
+  <label>ID Number:</label><input type="text" name="id_number" required><br>
+  <label>Monthly Income:</label><input type="number" name="income" required><br>
+  <label>Loan Amount:</label><input type="number" name="loan_amount" required><br>
+  <label>Employment Status:</label>
+  <select name="employment_status">
+    <option value="1">Employed</option>
+    <option value="0">Unemployed</option>
+  </select><br>
+  <label>Credit Score:</label><input type="number" name="credit_score"><br>
+  <button type="submit">Apply</button>
+</form>
+<script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    fetch('/submit', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert('Application submitted successfully!');
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('There was an error submitting your application.');
+    });
+  });
+</script>
+</body>
+</html>

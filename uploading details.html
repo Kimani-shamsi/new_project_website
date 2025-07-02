@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartLoan Application Form</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      color: #003366;
+    }
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #003366;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00509e;
+    }
+  </style>
+</head>
+<body>
+  <h2>details uploading</h2>
+<form action="/submit_application" method="POST" enctype="multipart/form-data">
+  <label for="loan_purpose">Purpose of Loan:</label>
+  <textarea id="loan_purpose" name="loan_purpose" required></textarea><br>
+<label>Upload CV:</label><input type="file" name="cv" accept=".pdf,.doc,.docx" required><br>
+  <label>Upload ID Scan:</label><input type="file" name="id_scan" accept=".jpg,.png,.pdf" required><br>
+
+  <button type="submit">submit details</button>
+</form>
+<script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    fetch('/submit_application', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Application submitted successfully!');
+      } else {
+        alert('There was an error submitting your application.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('There was an error submitting your application.');
+    });
+  });
+</script>
+</body>
+</html>
